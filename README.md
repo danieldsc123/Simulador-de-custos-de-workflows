@@ -1,96 +1,70 @@
-Estrutura de Custeio para Sustentação de Workflows
+# Simulador de Custo de Sustentação (Workflows)
 
-Este modelo de precificação é desenhado para calcular o custo de sustentação de cada tipo de workflow de forma individualizada, partindo de um "Valor Base" e aplicando uma série de "Adicionais" que refletem as exigências específicas de cada processo.
+Aplicação web (HTML/CSS/JS) para **simular o custo mensal de sustentação de workflows**, considerando:
+- tipo/camada (Produto, Plataforma, Modelos AA)
+- SLA desejado
+- complexidade do processo e da validação
+- necessidade de plantão e cobertura
+- frequência de execução
+- taxa de assertividade (impacto por falhas / tickets)
+- quantidade de workflows
 
-1. Valor Base (Custo Inicial)
+> Última atualização dos fatores de custo: **07 de agosto de 2025**.
 
-O ponto de partida é o custo fixo e individual para cada tipo de workflow:
+---
 
-Produto: R$ 85,00
+## ✅ Funcionalidades
 
-Plataforma: R$ 60,00
+- Adicionar workflows com parâmetros de simulação
+- Calcular automaticamente:
+  - Valor base
+  - Valor base com SLA
+  - Adicionais (plantão, cobertura, frequência, complexidade, validação)
+  - Adicional por assertividade (falhas)
+  - Custo mensal total (multiplicado pela quantidade de workflows)
+- Listar workflows em tabela
+- Remover linhas individualmente
+- Exportar resultados em **CSV**
 
-Modelos AA: R$ 100,00
+---
 
+## 🧠 Como o cálculo funciona (resumo)
 
-2. Adicionais (Ajustes ao Valor Base)
+### 1) Retainer (custo base + adicionais)
+- `valorBase` (depende do tipo/camada)
+- `valorBaseComSLA = valorBase * multiplicadorSLA`
+- Adicionais calculados em cima de `valorBaseComSLA`:
+  - Plantão
+  - Cobertura
+  - Frequência
+  - Complexidade do processo
+  - Complexidade da validação
 
-Os adicionais são calculados sobre o "Valor Base com SLA", que é o primeiro ajuste aplicado ao valor inicial.
+### 2) Adicional por assertividade (falhas)
+- `taxaFalha = 1 - (assertividade / 100)`
+- `adicionalAssertividade = taxaFalha * custoTicket`
+- No código: `custoTicket = R$ 143,00`
 
-2.1. Valor Base com SLA (Service Level Agreement)
+### 3) Custo total mensal
+- `custoTotal = (retainer + adicionalAssertividade) * quantidadeWorkflows`
 
-Este é o valor de referência para o cálculo de todos os outros adicionais. O ajuste é feito com base no tempo de resposta exigido:
+---
 
-8 Horas: Multiplicador x 1 (sem custo adicional)
+## ▶️ Como rodar
 
-6 Horas: Multiplicador x 1,5
+1. Baixe/clone o repositório
+2. Abra o arquivo `index.html` no navegador
 
-4 Horas: Multiplicador x 2,5
+---
 
-2 Horas: Multiplicador x 6
+## 📤 Exportação CSV
 
-2.2. Cálculo dos Adicionais
+O botão **“Exportar Google Planilhas (.csv)”** gera um arquivo `.csv` separado por `;`, pronto para importar no Google Sheets/Excel.
 
-Os seguintes adicionais são calculados sobre o "Valor Base com SLA" e somados ao final:
+---
 
-Adicional de Plantão:
+## 🛠️ Tecnologias
 
-Com plantão: Adiciona 100% do "Valor Base com SLA".
-
-Sem plantão: Sem custo adicional.
-
-Adicional de Frequência:
-
-Reflete o risco associado à frequência de execuções diárias.
-
-Baixa (ex: 1x/dia): Sem custo adicional.
-
-Média (ex: 24x/dia): Adiciona aproximadamente 50% do "Valor Base com SLA".
-
-Alta (48x/dia ou mais): Adiciona 100% do "Valor Base com SLA".
-
-Adicional de Complexidade do Processo:
-
-Baixa: Sem custo adicional.
-
-Média: Adiciona 25% do "Valor Base com SLA".
-
-Alta: Adiciona 60% do "Valor Base com SLA".
-
-Adicional de Complexidade da Validação de Qualidade:
-
-Sem validação: Sem custo adicional.
-
-Baixa: Adiciona 25% do "Valor Base com SLA".
-
-Média: Adiciona 50% do "Valor Base com SLA".
-
-Alta: Adiciona 100% do "Valor Base com SLA".
-
-Adicional de Cobertura Desejada:
-
-5x8 (Horário Comercial): Sem custo adicional.
-
-12x5 (Horário Estendido Seg à Sex): Adiciona 25% do "Valor Base com SLA".
-
-8x7 (Horário Estendido Seg à Dom): Adiciona 50% do "Valor Base com SLA".
-
-24x7 (Cobertura Total): Adiciona 100% do "Valor Base com SLA".
-
-3. Valor Final por Workflow
-
-O custo final para cada workflow é determinado pela seguinte fórmula:
-
-ValorporWorkflow=ValorBasecomSLA+AdicionalPlant 
-a
-~
- o+AdicionalFrequ 
-e
-^
- ncia+AdicionalComp.Processo+AdicionalComp.Qualidade+AdicionalCobertura
-
-O custo total da sustentação é a soma dos valores finais de todos os workflows.
-
-4. Métrica de Performance: Assertividade
-
-A qualidade do serviço, medida pela assertividade na resolução dos trabalhos, pode impactar o valor final a ser faturado. A meta padrão de assertividade é de 95%. Este percentual pode ser ajustado, funcionando como um possível bônus ou redutor sobre o valor total calculado, dependendo da performance alcançada.
+- HTML
+- CSS
+- JavaScript (Vanilla)
