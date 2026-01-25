@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Simulador de Custo de Sustentação</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="main-container">
+    <header>
+      <h1>SIMULADOR DE CUSTO DE SUSTENTAÇÃO</h1>
+      <p>Última atualização dos fatores de custo: 07 de Agosto de 2025</p>
+    </header>
+
+    <div class="form-container">
+      <div class="form-grid">
+        <div>
+          <label for="processName">Nome do processo:</label>
+          <input type="text" id="processName" placeholder="Ex: Carga de Vendas Diária"/>
+        </div>
+
+        <div>
+          <label for="workflowQuantity">Quantidade de workflows:</label>
+          <input type="number" id="workflowQuantity" value="1" min="1"/>
+        </div>
+
+        <div>
+          <label for="processLayer">Camada / Tipo:</label>
+          <select id="processLayer">
+            <option value="produto">Produto</option>
+            <option value="plataforma">Plataforma</option>
+            <option value="ModelosAA">Modelos AA</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="executionFrequency">Frequência de Execução:</label>
+          <select id="executionFrequency">
+            <option value="1">Diária</option>
+            <option value="7">Semanal</option>
+            <option value="30">Mensal</option>
+          </select>
+        </div>
+
+        <div id="dailyExecutionCountBlock">
+          <label for="dailyExecutionCount">Quantidade de execuções diárias:</label>
+          <input type="number" id="dailyExecutionCount" value="1" min="1">
+        </div>
+
+        <div>
+          <label for="processComplexity">Nível de complexidade do processo:</label>
+          <select id="processComplexity">
+            <option value="Baixa">Baixa</option>
+            <option value="Média">Média</option>
+            <option value="Alta">Alta</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="validationComplexity">Nível de complexidade da validação:</label>
+          <select id="validationComplexity">
+            <option value="Sem validação">Sem validação</option>
+            <option value="Baixa">Baixa</option>
+            <option value="Média">Média</option>
+            <option value="Alta">Alta</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="slaLevel">SLA desejado para simulação:</label>
+          <select id="slaLevel">
+            <option value="8h">8h</option>
+            <option value="6h">6h</option>
+            <option value="4h">4h</option>
+            <option value="2h">2h</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="onCallType">Tipo de plantão desejado para simulação:</label>
+          <select id="onCallType">
+            <option value="Sem plantão">Sem plantão</option>
+            <option value="Com plantão">Com plantão</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="coverage">Cobertura desejada:</label>
+          <select id="coverage">
+            <option value="8 x 5">(Seg a Sex, horário comercial)</option>
+            <option value="5 x 12">(Seg a Sex, 12h)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="assertividadeInput">Taxa de assertividade (%):</label>
+          <input type="number" id="assertividadeInput" value="95" min="1" max="100" placeholder="Ex: 95"/>
+        </div>
+      </div>
+
+      <button id="addProcessBtn">Adicionar e Calcular Workflow</button>
+    </div>
+
+    <div class="results-container">
+      <div class="results-header">
+        <button id="exportBtn">Exportar Google Planilhas (.csv)</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="processListTable" aria-label="Tabela de workflows adicionados">
+          <thead>
+            <tr>
+              <th>Nome do Processo</th>
+              <th>Qtd de Workflows</th>
+              <th>Tipo</th>
+              <th>Valor Base</th>
+              <th>SLA</th>
+              <th>Valor Base c/ SLA</th>
+              <th>Ad. Plantão</th>
+              <th>Ad. Cobertura</th>
+              <th>Ad. Frequência</th>
+              <th>Ad. Comp. Processo</th>
+              <th>Ad. Comp. Validação</th>
+              <th>Adicional por Assertividade</th>
+              <th>Custo Mensal Total</th>
+              <th>Taxa de Assertividade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="processListBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
