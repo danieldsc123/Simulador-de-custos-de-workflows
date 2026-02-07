@@ -1,96 +1,95 @@
-Estrutura de Custeio para Sustentação de Workflows
+🧮 Simulador de Custos de Sustentação de Workflows
 
-Este modelo de precificação é desenhado para calcular o custo de sustentação de cada tipo de workflow de forma individualizada, partindo de um "Valor Base" e aplicando uma série de "Adicionais" que refletem as exigências específicas de cada processo.
+Simulador full-stack para estimar o custo mensal de sustentação de workflows corporativos.
 
-1. Valor Base (Custo Inicial)
-
-O ponto de partida é o custo fixo e individual para cada tipo de workflow:
-
-Produto: R$ 85,00
-
-Plataforma: R$ 60,00
-
-Modelos AA: R$ 100,00
+Projeto criado com foco em backend profissional, testes automatizados e Docker.
 
 
-2. Adicionais (Ajustes ao Valor Base)
+🛠️ Tecnologias
 
-Os adicionais são calculados sobre o "Valor Base com SLA", que é o primeiro ajuste aplicado ao valor inicial.
+• Python 3.12
+• FastAPI
+• SQLite
+• Docker & Docker Compose
+• Pytest
+• HTML • CSS • JavaScript
 
-2.1. Valor Base com SLA (Service Level Agreement)
 
-Este é o valor de referência para o cálculo de todos os outros adicionais. O ajuste é feito com base no tempo de resposta exigido:
 
-8 Horas: Multiplicador x 1 (sem custo adicional)
+🚀 Como rodar com Docker
+Pré-requisito:
+Ter o Docker Desktop instalado.
 
-6 Horas: Multiplicador x 1,5
+Subir aplicação
+• docker compose up --build
 
-4 Horas: Multiplicador x 2,5
 
-2 Horas: Multiplicador x 6
+A API ficará disponível em:
 
-2.2. Cálculo dos Adicionais
+• Swagger → http://127.0.0.1:8000/docs
+• Healthcheck → http://127.0.0.1:8000/health
 
-Os seguintes adicionais são calculados sobre o "Valor Base com SLA" e somados ao final:
+Parar aplicação
+• docker compose down
 
-Adicional de Plantão:
+🧪 Rodando os testes
 
-Com plantão: Adiciona 100% do "Valor Base com SLA".
+Dentro da pasta backend/:
+• pytest -q
 
-Sem plantão: Sem custo adicional.
 
-Adicional de Frequência:
+🔌 Endpoints principais:
 
-Reflete o risco associado à frequência de execuções diárias.
+Criar simulação
+POST /workflows/simulate
 
-Baixa (ex: 1x/dia): Sem custo adicional.
 
-Média (ex: 24x/dia): Adiciona aproximadamente 50% do "Valor Base com SLA".
+• Calcula o custo e salva no histórico.
 
-Alta (48x/dia ou mais): Adiciona 100% do "Valor Base com SLA".
+Listar histórico
+• GET /workflows/history?limit=20
 
-Adicional de Complexidade do Processo:
+Deletar simulação
+• DELETE /workflows/history/{id}
 
-Baixa: Sem custo adicional.
+Healthcheck
+GET /health
 
-Média: Adiciona 25% do "Valor Base com SLA".
+🏗️ Arquitetura do Projeto:
+• frontend → FastAPI → Services → SQLite → Docker
 
-Alta: Adiciona 60% do "Valor Base com SLA".
 
-Adicional de Complexidade da Validação de Qualidade:
+O projeto segue arquitetura em camadas:
 
-Sem validação: Sem custo adicional.
+• routes → endpoints da API
 
-Baixa: Adiciona 25% do "Valor Base com SLA".
+• services → regra de negócio
 
-Média: Adiciona 50% do "Valor Base com SLA".
+• models → schemas e banco
 
-Alta: Adiciona 100% do "Valor Base com SLA".
+• tests → testes automatizados
 
-Adicional de Cobertura Desejada:
 
-5x8 (Horário Comercial): Sem custo adicional.
+💡 Objetivo do projeto
 
-12x5 (Horário Estendido Seg à Sex): Adiciona 25% do "Valor Base com SLA".
+Este projeto foi desenvolvido para demonstrar:
 
-8x7 (Horário Estendido Seg à Dom): Adiciona 50% do "Valor Base com SLA".
+• Construção de APIs REST
 
-24x7 (Cobertura Total): Adiciona 100% do "Valor Base com SLA".
+• Persistência com banco de dados
 
-3. Valor Final por Workflow
+• Testes automatizados com Pytest
 
-O custo final para cada workflow é determinado pela seguinte fórmula:
+• Containerização com Docker
 
-ValorporWorkflow=ValorBasecomSLA+AdicionalPlant 
-a
-~
- o+AdicionalFrequ 
-e
-^
- ncia+AdicionalComp.Processo+AdicionalComp.Qualidade+AdicionalCobertura
+• Integração frontend ↔ backend
 
-O custo total da sustentação é a soma dos valores finais de todos os workflows.
 
-4. Métrica de Performance: Assertividade
 
-A qualidade do serviço, medida pela assertividade na resolução dos trabalhos, pode impactar o valor final a ser faturado. A meta padrão de assertividade é de 95%. Este percentual pode ser ajustado, funcionando como um possível bônus ou redutor sobre o valor total calculado, dependendo da performance alcançada.
+🔮 Próximos passos
+
+• Dashboard analítico
+
+• Integração com Databricks
+
+• Deploy em cloud

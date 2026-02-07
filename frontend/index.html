@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <link rel="icon" href="data:,">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Simulador de Custo de Sustentação</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
+
 <body>
   <div class="main-container">
     <header>
@@ -13,8 +15,10 @@
       <p>Última atualização dos fatores de custo: 07 de Agosto de 2025</p>
     </header>
 
+    <!-- FORM SOMENTE VISUAL (não envia nada) -->
     <div class="form-container">
       <div class="form-grid">
+
         <div>
           <label for="processName">Nome do processo:</label>
           <input type="text" id="processName" placeholder="Ex: Carga de Vendas Diária"/>
@@ -68,7 +72,7 @@
         </div>
 
         <div>
-          <label for="slaLevel">SLA desejado para simulação:</label>
+          <label for="slaLevel">SLA desejado:</label>
           <select id="slaLevel">
             <option value="8h">8h</option>
             <option value="6h">6h</option>
@@ -78,7 +82,7 @@
         </div>
 
         <div>
-          <label for="onCallType">Tipo de plantão desejado para simulação:</label>
+          <label for="onCallType">Tipo de plantão:</label>
           <select id="onCallType">
             <option value="Sem plantão">Sem plantão</option>
             <option value="Com plantão">Com plantão</option>
@@ -86,7 +90,7 @@
         </div>
 
         <div>
-          <label for="coverage">Cobertura desejada:</label>
+          <label for="coverage">Cobertura:</label>
           <select id="coverage">
             <option value="8 x 5">(Seg a Sex, horário comercial)</option>
             <option value="5 x 12">(Seg a Sex, 12h)</option>
@@ -95,24 +99,30 @@
 
         <div>
           <label for="assertividadeInput">Taxa de assertividade (%):</label>
-          <input type="number" id="assertividadeInput" value="95" min="1" max="100" placeholder="Ex: 95"/>
+          <input type="number" id="assertividadeInput" value="95" min="1" max="100"/>
         </div>
+
       </div>
 
-      <button id="addProcessBtn">Adicionar e Calcular Workflow</button>
+      <!-- 🔥 MUITO IMPORTANTE -->
+      <button id="addProcessBtn" type="button">
+        Adicionar e Calcular Workflow
+      </button>
     </div>
 
     <div class="results-container">
       <div class="results-header">
-        <button id="exportBtn">Exportar Google Planilhas (.csv)</button>
+        <button id="exportBtn" type="button">
+          Exportar Google Planilhas (.csv)
+        </button>
       </div>
 
       <div class="table-wrapper">
-        <table id="processListTable" aria-label="Tabela de workflows adicionados">
+        <table id="processListTable">
           <thead>
             <tr>
-              <th>Nome do Processo</th>
-              <th>Qtd de Workflows</th>
+              <th>Nome</th>
+              <th>Qtd</th>
               <th>Tipo</th>
               <th>Valor Base</th>
               <th>SLA</th>
@@ -122,18 +132,22 @@
               <th>Ad. Frequência</th>
               <th>Ad. Comp. Processo</th>
               <th>Ad. Comp. Validação</th>
-              <th>Adicional por Assertividade</th>
-              <th>Custo Mensal Total</th>
-              <th>Taxa de Assertividade</th>
+              <th>Adicional Assertividade</th>
+              <th>Custo Mensal</th>
+              <th>%</th>
               <th>Ações</th>
             </tr>
           </thead>
+
+          <!-- 🔥 ESSA LINHA É CRÍTICA -->
           <tbody id="processListBody"></tbody>
+
         </table>
       </div>
     </div>
   </div>
 
+  <!-- Carrega JS por último -->
   <script src="js/app.js"></script>
 </body>
 </html>
