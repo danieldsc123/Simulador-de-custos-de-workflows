@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Banco de dados (SQLite)
+*.db
+
+# Docker
+.dockerignore
