@@ -1,10 +1,16 @@
 services:
   backend:
-    build:
-      context: ./backend
+    build: ./backend
+    container_name: simulador-backend
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
       - ./backend/data:/app/data
-    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: simulador-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend

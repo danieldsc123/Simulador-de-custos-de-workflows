@@ -1,6 +1,4 @@
-console.log("APP JS CARREGOU");
-
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "/api";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("INIT rodou ✅");
@@ -16,13 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------------- API ----------------
   async function apiGetHistory(limit = 50) {
-    const url = new URL(`${API_URL}/workflows/history`);
-    url.searchParams.set("limit", String(limit));
+  // monta URL absoluta usando a origem atual (http://localhost:8080)
+  const url = new URL(`${API_URL}/workflows/history`, window.location.origin);
+  url.searchParams.set("limit", String(limit));
 
-    const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(`Erro history (${res.status})`);
-    return res.json();
-  }
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Erro history (${res.status})`);
+  return res.json();
+}
 
   async function apiSimulate(payload) {
     const res = await fetch(`${API_URL}/workflows/simulate`, {
@@ -73,9 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = simulation.input || {};
     const result = simulation.result || {};
 
-    // Nome do processo: se vier vazio, usa "—"
     const processName = escapeHtml(
-      (document.getElementById("processName")?.value || input.process_name || "—").trim()
+      (input.process_name || "—").trim()
     );
 
     const tr = document.createElement("tr");
@@ -137,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       assertividade: parseFloat(document.getElementById("assertividadeInput").value),
     };
 
-    // opcional: salvar nome no input (o backend ignora se não existir)
     if (processName) payload.process_name = processName;
 
     try {
@@ -193,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
     exportBtn.addEventListener("click", () => {
       const rows = [];
 
-      // cabeçalho
       rows.push([
         "Nome do Processo", "Qtd Workflows", "Tipo", "Valor Base", "SLA",
         "Valor Base c/ SLA", "Ad. Plantão", "Ad. Cobertura", "Ad. Frequência",
@@ -207,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < cols.length - 1; i++) {
           let text = cols[i].textContent.trim();
 
-          // converter moeda "R$ 1.234,56" -> "1234.56"
           if (text.startsWith("R$")) {
             text = text.replace("R$", "").trim().replace(/\./g, "").replace(",", ".");
           }
@@ -236,9 +231,8 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Carregando histórico...");
       const history = await apiGetHistory(50);
 
-      // limpa e re-renderiza
       tbody.innerHTML = "";
-      history.reverse().forEach(addRow); // mais antigo em cima (opcional)
+      history.reverse().forEach(addRow);
 
       setExportEnabled();
       console.log("Histórico carregado ✅", history);

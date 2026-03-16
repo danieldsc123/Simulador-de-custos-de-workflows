@@ -4,6 +4,13 @@ Simulador full-stack para estimar o custo mensal de sustentação de workflows c
 
 Projeto criado com foco em backend profissional, testes automatizados e Docker.
 
+"""
+Configurações de simulação de custos.
+
+Todos os valores presentes neste arquivo são fictícios e foram criados
+apenas para fins educacionais e de demonstração técnica.
+"""
+
 ## 🧠 Como o cálculo funciona (resumo)
 
 🛠️ Tecnologias
